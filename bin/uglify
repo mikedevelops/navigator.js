@@ -1,1 +1,1 @@
-uglifyjs dist/OffCanvasNav.js --compress --output dist/OffCanvasNav.min.js
+uglifyjs dist/Navigator.js --compress --output dist/Navigator.min.js

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="../dist/main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="links">
+            <ul>
+                <li class="list__item"><a class="stickyLink" href="#introduction">Introduction</a></li>
+                <li class="list__item"><a class="stickyLink" href="#Installation">Installation</a></li>
+                <li class="list__item"><a class="stickyLink" href="#example">Example</a></li>
+                <li class="list__item"><a class="stickyLink" href="#usage">Usage</a></li>
+                <li class="list__item"><a class="stickyLink" href="#options">Options</a></li>
+                <li class="list__item"><a class="stickyLink" href="#five">Link Five</a></li>
+            </ul>
+        </div>
+
+        <div id="content">
+            <h1>Navigator.js</h1>
+            <h2 id="introduction" class="page-link">Introduction</h2>
+            <p>Navigator is a light weight navigation plugin for in-page navigation links. Navigator maps element IDs provided in the plugin configuration to corrosponding anchor links.</p>
+
+            <h2 id="Installation" class="page-link">Installation</h2>
+            <p>Install with NPM using the following command</p>
+            <p>`npm install ...`</p>
+
+            <h2 id="example" class="page-link">Example</h2>
+            <p>This is an example initiation using some default & custom options, see <a href="#options">#options</a> for more information</p>
+
+            <pre>
+require('./Navigator');
+
+var exampleNav = new Navigator({
+    activeClass: 'active',
+    activeElement: 'list__item', // default: false
+    defaultIndex: false, // default: 1
+    offset: 0,
+    pageLinkSelector: '.page-link',
+    throttle: 75,
+    updateState: true
+});
+            </pre>
+
+            <h2 id="usage" class="page-link">Usage</h2>
+            <p>Something here about requiring vs not requiring...</p>
+
+            <h2 id="options" class="page-link">Options</h2>
+
+            <p><strong>activeClass: </strong>false (default)</p>
+            <p>HTML Selector, e.g .foo, #bar, *[data-active]</p>
+            <p>Active element by default will be anchor link with corrorsponding href attribute.</p>
+
+            <p><strong>activeClass: </strong>'active' (default)</p>
+            <p>Class name applied to the current active element.</p>
+
+            <p><strong>defaultIndex: </strong>1 (default)</p>
+            <p>The default active item, this is not zero indexed (defaultIndex: 1 = first item)</p>
+            <p>If set to false, first active item will activate once scrolled into view.</p>
+
+            <p><strong>offset: </strong>0 (default)</p>
+            <p>Active item offset, this is the amount in pixels an item will activate before it reaches the top of the viewport. Margin & padding are currently included by default.</p>
+
+            <p><strong>pageLinkSelector: </strong>'.page-selector' (default)</p>
+            <p>Page link selector, this accepts any valid HTML selector to identify which links should be considered part of the Navigator menu.</p>
+
+            <p><strong>throttle: </strong>75 (default)</p>
+            <p>Amount in milliseconds the window scroll event is throttled. The default will update the Navigator's state every 75ms consecutive scroll events are fired. Increasing this amount will improve performance but affect Navigator's accuracy responding to scroll events.</p>
+
+            <p><strong>updateState: </strong>true (default)</p>
+            <p>When set to true, this will replace the current browser history state using the history API. This will append the current active item's href attribute to the page's URL, this makes for better sharing of Navigator links.</p>
+
+            <h2 id="five" class="page-link">Link Five</h2>
+            <p>Suspendisse hendrerit leo arcu, nec gravida lorem ultricies at. Pellentesque ullamcorper sem sit amet leo hendrerit, et commodo augue placerat. Mauris tempus congue enim, id luctus tortor auctor et. Duis et nibh et erat ultrices pretium tempor at metus. Morbi quis blandit elit. Fusce a vestibulum purus. Donec consequat tempor dui, nec scelerisque orci venenatis et. Aenean blandit viverra magna quis rutrum. Integer leo nunc, condimentum non ligula non, dignissim sollicitudin eros. Nulla a tellus erat. Cras dui nibh, tempor in dapibus id, dictum quis dolor. Curabitur neque tellus, dictum non volutpat ut, euismod non sapien.</p>
+        </div>
+    </div>
+    <script src="../dist/bundle.js"></script>
+</body>
+</html>
