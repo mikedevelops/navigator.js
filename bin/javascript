@@ -1,0 +1,1 @@
+browserify --standalone Spacecraft src/OffCanvasNav.js > dist/OffCanvasNav.js -t [ babelify --presets [ es2015-ie ] ]

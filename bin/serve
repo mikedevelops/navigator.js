@@ -1,0 +1,2 @@
+browser-sync start --server --files 'dist/*.css, dist/*.js, example/*.html' --startPath './example/index.html'
+

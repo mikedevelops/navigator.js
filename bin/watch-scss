@@ -1,0 +1,1 @@
+onchange src/**/*.scss -- npm run scss

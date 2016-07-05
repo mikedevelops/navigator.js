@@ -1,0 +1,1 @@
+parallelshell 'npm run serve' 'npm run watch-scss' 'npm run watch-js'

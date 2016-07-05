@@ -1,0 +1,1 @@
+node-sass --output-style compressed -o dist/ src/OffCanvasNav.scss && postcss -u autoprefixer -r 'dist/*.css' --autoprefixer.browsers "> 5%, ie 9-11"

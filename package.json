@@ -1,0 +1,34 @@
+{
+  "name": "navigator",
+  "version": "1.0.0",
+  "description": "Front end package to power in page navigation.",
+  "main": "./src/Navigator.js",
+  "author": "Mike Smart",
+  "scripts": {
+    "scss": "./bin/scss",
+    "scss-prod": "./bin/scss-prod",
+    "javascript": "./bin/javascript",
+    "watch-scss": "./bin/watch-scss",
+    "watch-js": "./bin/watch-js",
+    "watch-all": "./bin/watch-all",
+    "serve": "./bin/serve",
+    "dev": "npm run javascript && npm run scss && npm run watch-all",
+    "prod": "npm run javascript && npm run scss-prod && npm run uglify",
+    "uglify": "./bin/uglify"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2015-ie": "^6.6.2",
+    "babelify": "^7.3.0",
+    "browser-sync": "^2.13.0",
+    "browserify": "^13.0.1",
+    "minifyify": "^7.3.3",
+    "node-sass": "^3.7.0",
+    "onchange": "^2.5.0",
+    "parallelshell": "^2.0.0",
+    "postcss-cli": "^2.5.2",
+    "uglify-js": "^2.6.3"
+  }
+}
