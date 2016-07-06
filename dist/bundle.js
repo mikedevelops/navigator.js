@@ -797,8 +797,6 @@ require('classlist-polyfill');
 require('element-closest');
 
 // TODO: debounce scroll to catch violent scrolling
-// TODO: remove state regardless of whether default index
-// TODO: fix default index
 
 var Navigator = function () {
     function Navigator(options) {
@@ -827,6 +825,7 @@ var Navigator = function () {
         this.initiateData();
         this.registerEvents();
         this.handleStickyState();
+        this.activeIndex = null;
 
         if (this.options.defaultIndex) {
             this.toggleActiveClasses(this.options.defaultIndex - 1, { state: false });
@@ -849,7 +848,10 @@ var Navigator = function () {
             });
 
             if (_this.data[i].visited) {
+                _this.activeIndex = i;
                 _this.toggleActiveClasses(i);
+            } else {
+                _this.activeIndex = null;
             }
         });
     };
@@ -862,12 +864,27 @@ var Navigator = function () {
                 if (!link.visited) {
                     link.visited = true;
                     _this2.toggleActiveClasses(i);
+                    _this2.activeIndex = i;
                 }
             } else if (link.visited) {
                 var prevIndex = i - 1 > 0 ? i - 1 : 0;
 
                 link.visited = false;
-                _this2.toggleActiveClasses(prevIndex);
+
+                if (_this2.activeIndex === 0) {
+                    _this2.activeIndex = null;
+
+                    if (!_this2.options.defaultIndex) {
+                        _this2.toggleActiveClasses(_this2.activeIndex);
+                    }
+
+                    if (_this2.options.updateState) {
+                        _this2.removeState();
+                    }
+                } else if (_this2.activeIndex) {
+                    _this2.activeIndex = prevIndex;
+                    _this2.toggleActiveClasses(prevIndex);
+                }
             }
         });
     };
@@ -892,10 +909,18 @@ var Navigator = function () {
                 }
 
                 if (options.state) {
-                    history.replaceState(null, _this3.pageLinks[i].textContent, '#' + item.id);
+                    _this3.updateState(i, item.id);
                 }
             }
         });
+    };
+
+    Navigator.prototype.updateState = function updateState(index, id) {
+        history.replaceState(null, this.pageLinks[index].textContent, '#' + id);
+    };
+
+    Navigator.prototype.removeState = function removeState() {
+        history.replaceState(null, '', ' ');
     };
 
     Navigator.prototype.registerEvents = function registerEvents() {

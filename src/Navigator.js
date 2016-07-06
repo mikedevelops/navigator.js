@@ -2,8 +2,6 @@ require('classlist-polyfill');
 require('element-closest');
 
 // TODO: debounce scroll to catch violent scrolling
-// TODO: remove state regardless of whether default index
-// TODO: fix default index
 
 import _throttle from 'lodash.throttle';
 import _debounce from 'lodash.debounce';
@@ -34,6 +32,7 @@ export default class Navigator {
         this.initiateData();
         this.registerEvents();
         this.handleStickyState();
+        this.activeIndex = null;
 
         if (this.options.defaultIndex) {
             this.toggleActiveClasses(this.options.defaultIndex - 1, { state: false });
@@ -54,7 +53,11 @@ export default class Navigator {
             });
 
             if (this.data[i].visited) {
+                this.activeIndex = i;
                 this.toggleActiveClasses(i);
+            }
+            else {
+                this.activeIndex = null;
             }
         });
     }
@@ -65,13 +68,29 @@ export default class Navigator {
                 if (!link.visited) {
                     link.visited = true;
                     this.toggleActiveClasses(i);
+                    this.activeIndex = i;
                 }
             }
             else if (link.visited) {
                 const prevIndex = ((i - 1) > 0) ? i - 1 : 0;
 
                 link.visited = false;
-                this.toggleActiveClasses(prevIndex);
+
+                if (this.activeIndex === 0) {
+                    this.activeIndex = null;
+
+                    if (!this.options.defaultIndex) {
+                        this.toggleActiveClasses(this.activeIndex);
+                    }
+
+                    if (this.options.updateState) {
+                        this.removeState();
+                    }
+                }
+                else if (this.activeIndex) {
+                    this.activeIndex = prevIndex;
+                    this.toggleActiveClasses(prevIndex);
+                }
             }
         });
     }
@@ -95,10 +114,18 @@ export default class Navigator {
                 }
 
                 if (options.state) {
-                    history.replaceState(null, this.pageLinks[i].textContent, '#' + item.id);
+                    this.updateState(i, item.id);
                 }
             }
         });
+    }
+
+    updateState (index, id) {
+        history.replaceState(null, this.pageLinks[index].textContent, '#' + id);
+    }
+
+    removeState () {
+        history.replaceState(null, '', ' ');
     }
 
     registerEvents () {
