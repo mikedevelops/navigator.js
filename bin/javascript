@@ -1,1 +1,1 @@
-browserify --standalone Spacecraft src/index.js > dist/bundle.js -t [ babelify --presets [ es2015-ie ] ]
+browserify src/index.js > dist/bundle.js -t [ babelify --presets [ es2015-ie ] ] && browserify --standalone Navigator src/Navigator.js > dist/Navigator.bundle.js -t [ babelify --presets [ es2015-ie ] ]

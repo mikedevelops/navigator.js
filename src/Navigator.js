@@ -1,6 +1,10 @@
 require('classlist-polyfill');
 require('element-closest');
 
+// TODO: debounce scroll to catch violent scrolling
+// TODO: remove state regardless of whether default index
+// TODO: fix default index
+
 import _throttle from 'lodash.throttle';
 import _debounce from 'lodash.debounce';
 
@@ -32,7 +36,7 @@ export default class Navigator {
         this.handleStickyState();
 
         if (this.options.defaultIndex) {
-            this.toggleActiveClasses(this.options.defaultIndex - 1);
+            this.toggleActiveClasses(this.options.defaultIndex - 1, { state: false });
         }
     }
 
@@ -72,7 +76,7 @@ export default class Navigator {
         });
     }
 
-    toggleActiveClasses (index) {
+    toggleActiveClasses (index, options = {state: true}) {
         this.data.map((item, i) => {
             if (i !== index) {
                 if (this.options.activeElement) {
@@ -90,7 +94,7 @@ export default class Navigator {
                     item.node.classList.add(this.options.activeClass);
                 }
 
-                if (this.options.updateState) {
+                if (options.state) {
                     history.replaceState(null, this.pageLinks[i].textContent, '#' + item.id);
                 }
             }
@@ -101,3 +105,5 @@ export default class Navigator {
         window.addEventListener('scroll', _throttle(this.handleStickyState, this.options.throttle).bind(this));
     }
 }
+
+module.exports = Navigator;

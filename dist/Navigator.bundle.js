@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Navigator = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*
  * classList.js: Cross-browser full element.classList implementation.
  * 2014-07-23
@@ -910,23 +910,5 @@ exports.default = Navigator;
 
 module.exports = Navigator;
 
-},{"classlist-polyfill":1,"element-closest":2,"lodash.debounce":3,"lodash.throttle":4}],6:[function(require,module,exports){
-'use strict';
-
-var _Navigator = require('./Navigator');
-
-var _Navigator2 = _interopRequireDefault(_Navigator);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var exampleNav = new _Navigator2.default({
-    activeClass: 'active',
-    activeElement: '.list__item', // default: false
-    defaultIndex: 1,
-    offset: 0,
-    pageLinkSelector: '.page-link',
-    throttle: 75,
-    updateState: true
+},{"classlist-polyfill":1,"element-closest":2,"lodash.debounce":3,"lodash.throttle":4}]},{},[5])(5)
 });
-
-},{"./Navigator":5}]},{},[6]);
