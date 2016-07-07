@@ -31,7 +31,7 @@ export default class Navigator {
 
         this.initiateData();
         this.registerEvents();
-        this.handleStickyState();
+        this.handleState();
         this.activeIndex = null;
 
         if (this.options.defaultIndex) {
@@ -62,7 +62,7 @@ export default class Navigator {
         });
     }
 
-    handleStickyState () {
+    handleState () {
         this.data.map((link, i) => {
             if (link.pos <= window.scrollY) {
                 if (!link.visited) {
@@ -129,7 +129,7 @@ export default class Navigator {
     }
 
     registerEvents () {
-        window.addEventListener('scroll', _throttle(this.handleStickyState, this.options.throttle).bind(this));
+        window.addEventListener('scroll', _throttle(this.handleState, this.options.throttle).bind(this));
     }
 }
 

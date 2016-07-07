@@ -824,7 +824,7 @@ var Navigator = function () {
 
         this.initiateData();
         this.registerEvents();
-        this.handleStickyState();
+        this.handleState();
         this.activeIndex = null;
 
         if (this.options.defaultIndex) {
@@ -856,7 +856,7 @@ var Navigator = function () {
         });
     };
 
-    Navigator.prototype.handleStickyState = function handleStickyState() {
+    Navigator.prototype.handleState = function handleState() {
         var _this2 = this;
 
         this.data.map(function (link, i) {
@@ -924,7 +924,7 @@ var Navigator = function () {
     };
 
     Navigator.prototype.registerEvents = function registerEvents() {
-        window.addEventListener('scroll', (0, _lodash2.default)(this.handleStickyState, this.options.throttle).bind(this));
+        window.addEventListener('scroll', (0, _lodash2.default)(this.handleState, this.options.throttle).bind(this));
     };
 
     return Navigator;
