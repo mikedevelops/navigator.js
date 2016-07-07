@@ -17,7 +17,8 @@ export default class Navigator {
             pageLinkSelector: '.page-link',
             debounce: 100,
             throttle: 75,
-            useHistory: true
+            useHistory: true,
+            debug: false
         };
 
         if (typeof options === 'object') {
@@ -85,6 +86,11 @@ export default class Navigator {
 
         if (cachedState !== this.activeState.active) {
             this.toggleActiveClasses();
+
+            if (this.options.debug) {
+                console.log('active item: ', this.activeState.active);
+                console.log(JSON.stringify(this.state));
+            }
         }
     }
 
