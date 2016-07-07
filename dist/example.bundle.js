@@ -920,6 +920,7 @@ var Navigator = function () {
     };
 
     Navigator.prototype.removeState = function removeState() {
+        // TODO: this method should be amended to restore original state
         history.replaceState(null, '', ' ');
     };
 
