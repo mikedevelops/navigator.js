@@ -48,7 +48,7 @@ Any valid HTML Selector,  `.foo, #bar, *[data-active]`. The active element by de
 activeClass: 'active' (default)
 ```
 
-Class name applied to the current active element.
+Class name applied to the current active navigation element.
 
 ---
 
