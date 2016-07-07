@@ -800,6 +800,8 @@ require('element-closest');
 
 var Navigator = function () {
     function Navigator(options) {
+        var _this = this;
+
         _classCallCheck(this, Navigator);
 
         this.defaults = {
@@ -813,7 +815,6 @@ var Navigator = function () {
         };
 
         if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
-            // TODO: this may need a polyfill
             this.options = Object.assign(this.defaults, options);
         } else {
             this.options = this.defaults;
@@ -821,111 +822,95 @@ var Navigator = function () {
 
         this.pageLinks = [].slice.call(document.querySelectorAll(this.options.pageLinkSelector));
         this.data = [];
+        this.state = [];
+        this.activeState = {
+            active: -1,
+            previous: function previous() {
+                return _this.activeState.active - 1;
+            }
+        };
 
         this.initiateData();
         this.registerEvents();
-        this.handleState();
-        this.activeIndex = null;
-
-        if (this.options.defaultIndex) {
-            this.toggleActiveClasses(this.options.defaultIndex - 1, { state: false });
-        }
+        this.toggleActiveClasses();
     }
 
-    Navigator.prototype.initiateData = function initiateData() {
-        var _this = this;
+    Navigator.prototype.getPosition = function getPosition(element) {
+        var offset = this.options.offset;
 
-        this.pageLinks.map(function (link, i) {
-            var offset = _this.options.offset;
-            var position = link.offsetTop - offset > 0 ? link.offsetTop - offset : 0;
-
-            _this.data.push({
-                i: i,
-                id: link.id,
-                pos: position,
-                visited: position < window.scrollY,
-                node: document.querySelector('a[href="#' + _this.pageLinks[i].id + '"]')
-            });
-
-            if (_this.data[i].visited) {
-                _this.activeIndex = i;
-                _this.toggleActiveClasses(i);
-            } else {
-                _this.activeIndex = null;
-            }
-        });
+        return element.offsetTop - offset > 0 ? element.offsetTop - offset : 0;
     };
 
-    Navigator.prototype.handleState = function handleState() {
+    Navigator.prototype.initiateData = function initiateData() {
         var _this2 = this;
 
-        this.data.map(function (link, i) {
-            if (link.pos <= window.scrollY) {
-                if (!link.visited) {
-                    link.visited = true;
-                    _this2.toggleActiveClasses(i);
-                    _this2.activeIndex = i;
-                }
-            } else if (link.visited) {
-                var prevIndex = i - 1 > 0 ? i - 1 : 0;
+        this.pageLinks.map(function (link, i) {
+            var position = _this2.getPosition(link);
 
-                link.visited = false;
+            _this2.data.push({
+                index: i,
+                id: link.id,
+                node: document.querySelector('a[href="#' + _this2.pageLinks[i].id + '"]')
+            });
 
-                if (_this2.activeIndex === 0) {
-                    _this2.activeIndex = null;
+            _this2.state.push({
+                index: i,
+                position: position,
+                visited: position < window.scrollY
+            });
 
-                    if (!_this2.options.defaultIndex) {
-                        _this2.toggleActiveClasses(_this2.activeIndex);
-                    }
-
-                    if (_this2.options.updateState) {
-                        _this2.removeState();
-                    }
-                } else if (_this2.activeIndex) {
-                    _this2.activeIndex = prevIndex;
-                    _this2.toggleActiveClasses(prevIndex);
-                }
+            if (_this2.data[i].visited) {
+                _this2.activeState.active = i;
             }
         });
     };
 
-    Navigator.prototype.toggleActiveClasses = function toggleActiveClasses(index) {
+    Navigator.prototype.updateState = function updateState() {
         var _this3 = this;
 
-        var options = arguments.length <= 1 || arguments[1] === undefined ? { state: true } : arguments[1];
+        var cachedState = this.activeState.active;
 
-        this.data.map(function (item, i) {
-            if (i !== index) {
-                if (_this3.options.activeElement) {
-                    item.node.closest(_this3.options.activeElement).classList.remove(_this3.options.activeClass);
+        this.state.map(function (item, i) {
+            var position = _this3.getPosition(_this3.pageLinks[i]);
+
+            item.posistion = position;
+            item.visited = position < window.scrollY;
+
+            if (item.visited && item.index !== _this3.activeState.active) {
+                _this3.activeState.active = item.index;
+            }
+        });
+
+        if (cachedState !== this.activeState.active) {
+            this.toggleActiveClasses();
+        }
+    };
+
+    Navigator.prototype.toggleActiveClasses = function toggleActiveClasses() {
+        var _this4 = this;
+
+        var options = arguments.length <= 0 || arguments[0] === undefined ? { state: true } : arguments[0];
+
+        this.state.map(function (item, i) {
+            if (i !== _this4.activeState.active) {
+                if (_this4.options.activeElement) {
+                    _this4.data[i].node.closest(_this4.options.activeElement).classList.remove(_this4.options.activeClass);
                 } else {
-                    item.node.classList.remove(_this3.options.activeClass);
+                    _this4.data[i].node.classList.remove(_this4.options.activeClass);
                 }
             } else {
-                if (_this3.options.activeElement) {
-                    item.node.closest(_this3.options.activeElement).classList.add(_this3.options.activeClass);
+                if (_this4.options.activeElement) {
+                    _this4.data[i].node.closest(_this4.options.activeElement).classList.add(_this4.options.activeClass);
                 } else {
-                    item.node.classList.add(_this3.options.activeClass);
-                }
-
-                if (options.state) {
-                    _this3.updateState(i, item.id);
+                    _this4.data[i].node.classList.add(_this4.options.activeClass);
                 }
             }
         });
-    };
-
-    Navigator.prototype.updateState = function updateState(index, id) {
-        history.replaceState(null, this.pageLinks[index].textContent, '#' + id);
-    };
-
-    Navigator.prototype.removeState = function removeState() {
-        // TODO: this method should be amended to restore original state
-        history.replaceState(null, '', ' ');
     };
 
     Navigator.prototype.registerEvents = function registerEvents() {
-        window.addEventListener('scroll', (0, _lodash2.default)(this.handleState, this.options.throttle).bind(this));
+        window.addEventListener('scroll', (0, _lodash2.default)(this.updateState, this.options.throttle).bind(this));
+        window.addEventListener('resize', (0, _lodash4.default)(this.updateState, this.options.debounce).bind(this));
     };
 
     return Navigator;
