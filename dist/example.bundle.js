@@ -797,6 +797,7 @@ require('classlist-polyfill');
 require('element-closest');
 
 // TODO: debounce scroll to catch violent scrolling
+// TODO: window.history
 
 var Navigator = function () {
     function Navigator(options) {
@@ -810,8 +811,9 @@ var Navigator = function () {
             defaultIndex: 1,
             offset: 0,
             pageLinkSelector: '.page-link',
+            debounce: 100,
             throttle: 75,
-            updateState: true
+            useHistory: true
         };
 
         if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {

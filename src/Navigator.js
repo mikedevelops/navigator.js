@@ -2,6 +2,7 @@ require('classlist-polyfill');
 require('element-closest');
 
 // TODO: debounce scroll to catch violent scrolling
+// TODO: window.history
 
 import _throttle from 'lodash.throttle';
 import _debounce from 'lodash.debounce';
@@ -14,8 +15,9 @@ export default class Navigator {
             defaultIndex: 1,
             offset: 0,
             pageLinkSelector: '.page-link',
+            debounce: 100,
             throttle: 75,
-            updateState: true
+            useHistory: true
         };
 
         if (typeof options === 'object') {
