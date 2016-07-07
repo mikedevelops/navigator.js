@@ -1,7 +1,6 @@
 require('classlist-polyfill');
 require('element-closest');
 
-// TODO: debounce scroll to catch violent scrolling
 // TODO: window.history
 
 import _throttle from 'lodash.throttle';
@@ -51,32 +50,28 @@ export default class Navigator {
     }
 
     initiateData () {
-        this.pageLinks.map((link, i) => {
+        this.pageLinks.map((link, index) => {
             const position = this.getPosition(link);
 
             this.data.push({
-                index: i,
+                index: index,
                 id: link.id,
-                node: document.querySelector(`a[href="#${this.pageLinks[i].id}"]`)
+                node: document.querySelector(`a[href="#${this.pageLinks[index].id}"]`)
             });
 
             this.state.push({
-                index: i,
+                index: index,
                 position: position,
                 visited:  position < window.scrollY
             });
 
-            if (this.data[i].visited) {
-                this.activeState.active = i;
-            }
-
-            // this forced default index
-            if (this.activeState.active < 0) {
-                this.activeState.active = 0;
+            if (this.data[index].visited) {
+                this.activeState.active = index;
             }
         });
 
         if (this.options.debug) {
+            console.log('window: ', window.scrollY);
             console.log('active item: ', this.activeState.active);
             console.log(JSON.stringify(this.state));
         }
@@ -85,8 +80,8 @@ export default class Navigator {
     updateState () {
         const cachedState = this.activeState.active;
 
-        this.state.map((item, i) => {
-            const position  = this.getPosition(this.pageLinks[i]);
+        this.state.map((item, index) => {
+            const position  = this.getPosition(this.pageLinks[index]);
 
             item.posistion = position;
             item.visited = position < window.scrollY;
@@ -96,40 +91,81 @@ export default class Navigator {
             }
         });
 
-        if (cachedState !== this.activeState.active) {
+        // if we have come back up and are behind the first item
+        if (!this.state[0].visited && this.activeState.active >= 0) {
+            this.activeState.active--;
+
+            if (this.options.useHistory) {
+                this.resetHistory();
+            }
+
+            this.toggleActiveClasses();
+        }
+        else if (cachedState !== this.activeState.active) {
+            if (this.options.useHistory) {
+                this.updateHistory();
+            }
+
             this.toggleActiveClasses();
 
             if (this.options.debug) {
+                console.log('window: ', window.scrollY);
                 console.log('active item: ', this.activeState.active);
                 console.log(JSON.stringify(this.state));
             }
         }
     }
 
-    toggleActiveClasses (options = {state: true}) {
-        this.state.map((item, i) => {
-            if (i !== this.activeState.active) {
-                if (this.options.activeElement) {
-                    this.data[i].node.closest(this.options.activeElement).classList.remove(this.options.activeClass);
+    toggleActiveClasses () {
+        if (this.options.debug) {
+            console.log('updating DOM...');
+        }
+
+        if (this.options.defaultIndex - 1 > this.activeState.active) {
+            this.addClass(this.data[this.options.defaultIndex - 1].node);
+        }
+        else {
+            this.state.map((item, index) => {
+                if (index !== this.activeState.active) {
+                    this.removeClass(this.data[index].node);
                 }
                 else {
-                    this.data[i].node.classList.remove(this.options.activeClass);
+                    this.addClass(this.data[index].node);
                 }
-            }
-            else {
-                if (this.options.activeElement) {
-                    this.data[i].node.closest(this.options.activeElement).classList.add(this.options.activeClass);
-                }
-                else {
-                    this.data[i].node.classList.add(this.options.activeClass);
-                }
-            }
-        });
+            });
+        }
+    }
+
+    updateHistory () {
+        window.history.replaceState(null, '', `#${this.data[this.activeState.active].id}`);
+    }
+
+    resetHistory () {
+        window.history.replaceState(null, '', ' ');
+    }
+
+    addClass (node) {
+        if (this.options.activeElement) {
+            node.closest(this.options.activeElement).classList.add(this.options.activeClass);
+        }
+        else {
+            node.classList.add(this.options.activeClass);
+        }
+    }
+
+    removeClass (node) {
+        if (this.options.activeElement) {
+            node.closest(this.options.activeElement).classList.remove(this.options.activeClass);
+        }
+        else {
+            node.classList.remove(this.options.activeClass);
+        }
     }
 
     registerEvents () {
         window.addEventListener('scroll', _throttle(this.updateState, this.options.throttle).bind(this));
         window.addEventListener('resize', _debounce(this.updateState, this.options.debounce).bind(this));
+        window.addEventListener('orientationchange', _debounce(this.updateState, this.options.debounce).bind(this));
     }
 }
 
