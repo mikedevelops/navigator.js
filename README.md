@@ -11,7 +11,7 @@ Navigator is a light weight navigation plugin for in-page navigation links. Navi
 Install with NPM using the following command
 
 ```
-npm install mikedevelops/navigator.js --save-dev
+npm install mikedevelops/navigator.js#1.1.0 --save-dev
 ```
 
 ##Usage
@@ -89,4 +89,24 @@ updateState: true (default)
 ```
 
 When set to true, this will replace the current browser history state using the history API. This will append the current active item's href attribute to the page's URL, this makes for better sharing of Navigator links.
+
+---
+
+###Callbacks
+
+```
+onActveItem: null (default)
+```
+
+A callback fired once the active item has changed, the active item `HTMLElement` is available as an argument.
+
+```javascript
+var exampleNav = new Navigator({
+    callbacks: {
+        onActiveItem(activeItem) {
+         // your code here...
+        }
+    }
+}
+```
 
