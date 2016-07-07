@@ -1,6 +1,6 @@
 #Navigator.js
 
-*A front end package to power in-page navigation*
+*A vanilla front end package to power in-page navigation*
 
 ##Introduction
 
