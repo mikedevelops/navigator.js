@@ -37,7 +37,7 @@ Example page coming soon...
 ##Options
 
 ```
-activeClass: false (default)
+activeElement: false (default)
 ```
 
 Any valid HTML Selector,  `.foo, #bar, *[data-active]`. The active element by default will be anchor link with corrorsponding href attribute, if activeClass is set to false.
