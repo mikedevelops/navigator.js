@@ -9,6 +9,8 @@ import _debounce from 'lodash.debounce';
 
 export default class Navigator {
     constructor (options) {
+        Navigator.VERSION = 'v1.0.4';
+
         this.defaults = {
             activeClass: 'active',
             activeElement: false,
