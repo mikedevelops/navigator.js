@@ -7,7 +7,7 @@ import _defaultsDeep from 'lodash.defaultsdeep';
 
 export default class Navigator {
     constructor (options) {
-        Navigator.VERSION = 'v1.0.5';
+        Navigator.VERSION = 'v1.1.0';
 
         const defaults = {
             activeClass: 'active',
