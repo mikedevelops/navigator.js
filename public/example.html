@@ -64,7 +64,12 @@
         offset: 0,
         pageLinkSelector: '.page-link',
         throttle: 75,
-        updateState: true
+        updateState: true,
+        callbacks: {
+            onActiveItem: function (activeItem) {
+                console.log(activeItem);
+            }
+        }
     });
 </script>
 </body>

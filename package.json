@@ -27,6 +27,7 @@
     "classlist-polyfill": "^1.0.3",
     "element-closest": "^2.0.1",
     "lodash.debounce": "^4.0.6",
+    "lodash.defaultsdeep": "^4.4.0",
     "lodash.throttle": "^4.0.1",
     "minifyify": "^7.3.3",
     "node-sass": "^3.7.0",
