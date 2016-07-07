@@ -67,7 +67,17 @@ export default class Navigator {
             if (this.data[i].visited) {
                 this.activeState.active = i;
             }
+
+            // this forced default index
+            if (this.activeState.active < 0) {
+                this.activeState.active = 0;
+            }
         });
+
+        if (this.options.debug) {
+            console.log('active item: ', this.activeState.active);
+            console.log(JSON.stringify(this.state));
+        }
     }
 
     updateState () {

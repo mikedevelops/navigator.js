@@ -865,7 +865,17 @@ var Navigator = function () {
             if (_this2.data[i].visited) {
                 _this2.activeState.active = i;
             }
+
+            // this forced default index
+            if (_this2.activeState.active < 0) {
+                _this2.activeState.active = 0;
+            }
         });
+
+        if (this.options.debug) {
+            console.log('active item: ', this.activeState.active);
+            console.log(JSON.stringify(this.state));
+        }
     };
 
     Navigator.prototype.updateState = function updateState() {
