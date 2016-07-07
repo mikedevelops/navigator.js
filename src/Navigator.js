@@ -1,16 +1,15 @@
 require('classlist-polyfill');
 require('element-closest');
 
-// TODO: window.history
-
 import _throttle from 'lodash.throttle';
 import _debounce from 'lodash.debounce';
+import _defaultsDeep from 'lodash.defaultsdeep';
 
 export default class Navigator {
     constructor (options) {
         Navigator.VERSION = 'v1.0.4';
 
-        this.defaults = {
+        const defaults = {
             activeClass: 'active',
             activeElement: false,
             defaultIndex: 1,
@@ -19,16 +18,13 @@ export default class Navigator {
             debounce: 100,
             throttle: 75,
             useHistory: true,
-            debug: false
+            debug: false,
+            callbacks: {
+                onActiveItem: null
+            }
         };
 
-        if (typeof options === 'object') {
-            this.options = Object.assign(this.defaults, options);
-        }
-        else {
-            this.options = this.defaults;
-        }
-
+        this.options = _defaultsDeep(options, defaults);
         this.pageLinks = [].slice.call(document.querySelectorAll(this.options.pageLinkSelector));
         this.data = [];
         this.state = [];
@@ -107,6 +103,10 @@ export default class Navigator {
             }
 
             this.toggleActiveClasses();
+
+            if (this.options.callbacks.onActiveItem) {
+                this.options.callbacks.onActiveItem(this.data[this.activeState.active].node);
+            }
 
             if (this.options.debug) {
                 console.log('window: ', window.scrollY);
