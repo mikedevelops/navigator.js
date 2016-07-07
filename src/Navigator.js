@@ -125,7 +125,7 @@ export default class Navigator {
     }
 
     removeState () {
-        // this method should be amended to restore original state
+        // TODO: this method should be amended to restore original state
         history.replaceState(null, '', ' ');
     }
 
