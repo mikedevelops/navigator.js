@@ -1,1 +1,1 @@
-uglifyjs dist/Navigator.js --compress --output dist/Navigator.min.js
+uglifyjs dist/Navigator.bundle.js --compress --output dist/Navigator.min.js

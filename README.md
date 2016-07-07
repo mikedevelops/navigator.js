@@ -1,5 +1,7 @@
 #Navigator.js
 
+*A front end package to power in-page navigation*
+
 ##Introduction
 
 Navigator is a light weight navigation plugin for in-page navigation links. Navigator maps element IDs provided in the plugin configuration to corrosponding anchor links.
@@ -34,7 +36,7 @@ Example page coming soon...
 
 ##Options
 
-```javascript
+```
 activeClass: false (default)
 ```
 
@@ -42,7 +44,7 @@ Any valid HTML Selector,  `.foo, #bar, *[data-active]`. The active element by de
 
 ---
 
-```javascript
+```
 activeClass: 'active' (default)
 ```
 
@@ -50,7 +52,7 @@ Class name applied to the current active element.
 
 ---
 
-```javascript
+```
 defaultIndex: 1 (default)
 ```
 
@@ -58,7 +60,7 @@ The default active item (this is **not** zero indexed,  defaultIndex: 1 = first 
 
 ---
 
-```javascript
+```
 offset: 0 (default)
 ```
 
@@ -66,7 +68,7 @@ Active item offset, this is the amount in pixels an item will activate before it
 
 ---
 
-```javascript
+```
 pageLinkSelector: '.page-selector' (default)
 ```
 
@@ -74,7 +76,7 @@ Page link selector, this accepts any valid HTML selector to identify which links
 
 ---
 
-```javascript
+```
 throttle: 75 (default)
 ```
 
@@ -82,10 +84,9 @@ Amount in milliseconds the window scroll event is throttled. The default will up
 
 ---
 
-```javascript
+```
 updateState: true (default)
 ```
 
 When set to true, this will replace the current browser history state using the history API. This will append the current active item's href attribute to the page's URL, this makes for better sharing of Navigator links.
 
----
