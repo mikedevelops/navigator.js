@@ -42,11 +42,13 @@ activeElement: false (default)
 
 Any valid HTML Selector,  `.foo, #bar, *[data-active]`. The active element by default will be anchor link with corrorsponding href attribute, if activeClass is set to false.
 
+
 ```
 activeClass: 'active' (default)
 ```
 
 Class name applied to the current active navigation element.
+
 
 ```
 defaultIndex: 1 (default)
@@ -54,11 +56,13 @@ defaultIndex: 1 (default)
 
 The default active item (this is **not** zero indexed,  defaultIndex: 1 = first item). If set to false, first active item will activate once scrolled into view.
 
+
 ```
 offset: 0 (default)
 ```
 
 Active item offset, this is the amount in pixels an item will activate before it reaches the top of the viewport. Margin & padding are currently included by default.
+
 
 ```
 pageLinkSelector: '.page-selector' (default)
@@ -66,11 +70,13 @@ pageLinkSelector: '.page-selector' (default)
 
 Page link selector, this accepts any valid HTML selector to identify which links should be considered part of the Navigator menu.
 
+
 ```
 throttle: 75 (default)
 ```
 
 Amount in milliseconds the window scroll event is throttled. The default will update the Navigator's state every 75ms consecutive scroll events are fired. Increasing this amount will improve performance but affect Navigator's accuracy responding to scroll events.
+
 
 ```
 updateState: true (default)
