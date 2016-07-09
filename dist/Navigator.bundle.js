@@ -6191,7 +6191,7 @@ var Navigator = function () {
 
         _classCallCheck(this, Navigator);
 
-        Navigator.VERSION = 'v1.1.0';
+        Navigator.VERSION = 'v1.1.1';
 
         var defaults = {
             activeClass: 'active',
