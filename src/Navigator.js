@@ -9,8 +9,6 @@ export default class Navigator {
     constructor (options) {
         Navigator.VERSION = 'v1.1.1';
 
-        console.log('Nvaigator init');
-
         const defaults = {
             activeClass: 'active',
             activeElement: false,
@@ -46,6 +44,10 @@ export default class Navigator {
         this.toggleActiveClasses();
     }
 
+    getWindowOffset () {
+        return window.pageYOffset;
+    }
+
     getPosition (element) {
         const { offset } = this.options;
         return ((element.offsetTop - offset) > 0) ? element.offsetTop - offset : 0;
@@ -68,16 +70,16 @@ export default class Navigator {
             this.state.push({
                 index: index,
                 position: position,
-                visited:  position < window.scrollY
+                visited:  position < this.getWindowOffset()
             });
 
-            if (this.data[index].visited) {
+            if (this.state[index].visited) {
                 this.activeState.active = index;
             }
         });
 
         if (this.options.debug) {
-            console.log('window: ', window.scrollY);
+            console.log('window: ', this.getWindowOffset());
             console.log('active item: ', this.activeState.active);
             console.log(JSON.stringify(this.state));
         }
@@ -90,7 +92,7 @@ export default class Navigator {
             const position  = this.getPosition(this.pageLinks[index]);
 
             item.posistion = position;
-            item.visited = position < window.scrollY;
+            item.visited = position < this.getWindowOffset();
 
             if (item.visited && item.index !== this.activeState.active) {
                 this.activeState.active = item.index;
@@ -120,7 +122,7 @@ export default class Navigator {
 
         }
         if (this.options.debug) {
-            console.log('window: ', window.scrollY);
+            console.log('window: ', this.getWindowOffset());
             console.log('active item: ', this.activeState.active);
             console.log(JSON.stringify(this.state));
         }
@@ -131,6 +133,10 @@ export default class Navigator {
             console.log('toggleActiveClasses()');
             console.log('updating DOM...');
         }
+
+        console.log('default index: ', this.options.defaultIndex - 1);
+        console.log('state: ', this.activeState.active);
+
 
         if (this.options.defaultIndex - 1 > this.activeState.active) {
             this.addClass(this.data[this.options.defaultIndex - 1].node);
@@ -152,7 +158,9 @@ export default class Navigator {
             console.log('updateHistory()');
         }
 
-        window.history.replaceState(null, '', `#${this.data[this.activeState.active].id}`);
+        if (window.history.replaceState) {
+            window.history.replaceState(null, '', `#${this.data[this.activeState.active].id}`);
+        }
     }
 
     resetHistory () {
@@ -160,7 +168,9 @@ export default class Navigator {
             console.log('resetHistory()');
         }
 
-        window.history.replaceState(null, '', ' ');
+        if (window.history.replaceState) {
+            window.history.replaceState(null, '', ' ');
+        }
     }
 
     addClass (node) {
