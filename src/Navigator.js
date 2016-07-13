@@ -7,7 +7,7 @@ import _defaultsDeep from 'lodash.defaultsdeep';
 
 export default class Navigator {
     constructor (options) {
-        Navigator.VERSION = 'v1.2.0';
+        Navigator.VERSION = 'v1.2.1';
 
         const defaults = {
             activeClass: 'active',
@@ -133,10 +133,6 @@ export default class Navigator {
             console.log('toggleActiveClasses()');
             console.log('updating DOM...');
         }
-
-        console.log('default index: ', this.options.defaultIndex - 1);
-        console.log('state: ', this.activeState.active);
-
 
         if (this.options.defaultIndex - 1 > this.activeState.active) {
             this.addClass(this.data[this.options.defaultIndex - 1].node);

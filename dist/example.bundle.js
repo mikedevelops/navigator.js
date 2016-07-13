@@ -6191,7 +6191,7 @@ var Navigator = function () {
 
         _classCallCheck(this, Navigator);
 
-        Navigator.VERSION = 'v1.2.0';
+        Navigator.VERSION = 'v1.2.1';
 
         var defaults = {
             activeClass: 'active',
@@ -6322,9 +6322,6 @@ var Navigator = function () {
             console.log('toggleActiveClasses()');
             console.log('updating DOM...');
         }
-
-        console.log('default index: ', this.options.defaultIndex - 1);
-        console.log('state: ', this.activeState.active);
 
         if (this.options.defaultIndex - 1 > this.activeState.active) {
             this.addClass(this.data[this.options.defaultIndex - 1].node);
