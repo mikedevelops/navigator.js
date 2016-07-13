@@ -11,7 +11,7 @@ Navigator is a light weight navigation plugin for in-page navigation links. Navi
 Install with NPM using the following command
 
 ```
-npm install mikedevelops/navigator.js#1.1.1 --save-dev
+npm install mikedevelops/navigator.js#v1.2.0 --save-dev
 ```
 
 ##Usage

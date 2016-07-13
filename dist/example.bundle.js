@@ -6191,7 +6191,7 @@ var Navigator = function () {
 
         _classCallCheck(this, Navigator);
 
-        Navigator.VERSION = 'v1.1.1';
+        Navigator.VERSION = 'v1.2.0';
 
         var defaults = {
             activeClass: 'active',
@@ -6219,10 +6219,18 @@ var Navigator = function () {
             }
         };
 
+        if (this.options.debug) {
+            console.log(JSON.stringify(this.options));
+        }
+
         this.initiateData();
         this.registerEvents();
         this.toggleActiveClasses();
     }
+
+    Navigator.prototype.getWindowOffset = function getWindowOffset() {
+        return window.pageYOffset;
+    };
 
     Navigator.prototype.getPosition = function getPosition(element) {
         var offset = this.options.offset;
@@ -6232,6 +6240,10 @@ var Navigator = function () {
 
     Navigator.prototype.initiateData = function initiateData() {
         var _this2 = this;
+
+        if (this.options.debug) {
+            console.log('initiateData()');
+        }
 
         this.pageLinks.map(function (link, index) {
             var position = _this2.getPosition(link);
@@ -6245,16 +6257,16 @@ var Navigator = function () {
             _this2.state.push({
                 index: index,
                 position: position,
-                visited: position < window.scrollY
+                visited: position < _this2.getWindowOffset()
             });
 
-            if (_this2.data[index].visited) {
+            if (_this2.state[index].visited) {
                 _this2.activeState.active = index;
             }
         });
 
         if (this.options.debug) {
-            console.log('window: ', window.scrollY);
+            console.log('window: ', this.getWindowOffset());
             console.log('active item: ', this.activeState.active);
             console.log(JSON.stringify(this.state));
         }
@@ -6269,7 +6281,7 @@ var Navigator = function () {
             var position = _this3.getPosition(_this3.pageLinks[index]);
 
             item.posistion = position;
-            item.visited = position < window.scrollY;
+            item.visited = position < _this3.getWindowOffset();
 
             if (item.visited && item.index !== _this3.activeState.active) {
                 _this3.activeState.active = item.index;
@@ -6295,12 +6307,11 @@ var Navigator = function () {
             if (this.options.callbacks.onActiveItem) {
                 this.options.callbacks.onActiveItem(this.data[this.activeState.active].node);
             }
-
-            if (this.options.debug) {
-                console.log('window: ', window.scrollY);
-                console.log('active item: ', this.activeState.active);
-                console.log(JSON.stringify(this.state));
-            }
+        }
+        if (this.options.debug) {
+            console.log('window: ', this.getWindowOffset());
+            console.log('active item: ', this.activeState.active);
+            console.log(JSON.stringify(this.state));
         }
     };
 
@@ -6308,8 +6319,12 @@ var Navigator = function () {
         var _this4 = this;
 
         if (this.options.debug) {
+            console.log('toggleActiveClasses()');
             console.log('updating DOM...');
         }
+
+        console.log('default index: ', this.options.defaultIndex - 1);
+        console.log('state: ', this.activeState.active);
 
         if (this.options.defaultIndex - 1 > this.activeState.active) {
             this.addClass(this.data[this.options.defaultIndex - 1].node);
@@ -6325,14 +6340,30 @@ var Navigator = function () {
     };
 
     Navigator.prototype.updateHistory = function updateHistory() {
-        window.history.replaceState(null, '', '#' + this.data[this.activeState.active].id);
+        if (this.options.debug) {
+            console.log('updateHistory()');
+        }
+
+        if (window.history.replaceState) {
+            window.history.replaceState(null, '', '#' + this.data[this.activeState.active].id);
+        }
     };
 
     Navigator.prototype.resetHistory = function resetHistory() {
-        window.history.replaceState(null, '', ' ');
+        if (this.options.debug) {
+            console.log('resetHistory()');
+        }
+
+        if (window.history.replaceState) {
+            window.history.replaceState(null, '', ' ');
+        }
     };
 
     Navigator.prototype.addClass = function addClass(node) {
+        if (this.options.debug) {
+            console.log('addClass()');
+        }
+
         if (this.options.activeElement) {
             node.closest(this.options.activeElement).classList.add(this.options.activeClass);
         } else {
@@ -6341,6 +6372,10 @@ var Navigator = function () {
     };
 
     Navigator.prototype.removeClass = function removeClass(node) {
+        if (this.options.debug) {
+            console.log('removeClass()');
+        }
+
         if (this.options.activeElement) {
             node.closest(this.options.activeElement).classList.remove(this.options.activeClass);
         } else {
@@ -6349,6 +6384,10 @@ var Navigator = function () {
     };
 
     Navigator.prototype.registerEvents = function registerEvents() {
+        if (this.options.debug) {
+            console.log('registerEvents()');
+        }
+
         window.addEventListener('scroll', (0, _lodash2.default)(this.updateState, this.options.throttle).bind(this));
         window.addEventListener('resize', (0, _lodash4.default)(this.updateState, this.options.debounce).bind(this));
         window.addEventListener('orientationchange', (0, _lodash4.default)(this.updateState, this.options.debounce).bind(this));
