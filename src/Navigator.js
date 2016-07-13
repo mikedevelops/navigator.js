@@ -9,6 +9,8 @@ export default class Navigator {
     constructor (options) {
         Navigator.VERSION = 'v1.1.1';
 
+        console.log('Nvaigator init');
+
         const defaults = {
             activeClass: 'active',
             activeElement: false,
@@ -35,6 +37,10 @@ export default class Navigator {
             }
         };
 
+        if (this.options.debug) {
+            console.log(JSON.stringify(this.options));
+        }
+
         this.initiateData();
         this.registerEvents();
         this.toggleActiveClasses();
@@ -46,6 +52,10 @@ export default class Navigator {
     }
 
     initiateData () {
+        if (this.options.debug) {
+            console.log('initiateData()');
+        }
+
         this.pageLinks.map((link, index) => {
             const position = this.getPosition(link);
 
@@ -108,16 +118,17 @@ export default class Navigator {
                 this.options.callbacks.onActiveItem(this.data[this.activeState.active].node);
             }
 
-            if (this.options.debug) {
-                console.log('window: ', window.scrollY);
-                console.log('active item: ', this.activeState.active);
-                console.log(JSON.stringify(this.state));
-            }
+        }
+        if (this.options.debug) {
+            console.log('window: ', window.scrollY);
+            console.log('active item: ', this.activeState.active);
+            console.log(JSON.stringify(this.state));
         }
     }
 
     toggleActiveClasses () {
         if (this.options.debug) {
+            console.log('toggleActiveClasses()');
             console.log('updating DOM...');
         }
 
@@ -137,14 +148,26 @@ export default class Navigator {
     }
 
     updateHistory () {
+        if (this.options.debug) {
+            console.log('updateHistory()');
+        }
+
         window.history.replaceState(null, '', `#${this.data[this.activeState.active].id}`);
     }
 
     resetHistory () {
+        if (this.options.debug) {
+            console.log('resetHistory()');
+        }
+
         window.history.replaceState(null, '', ' ');
     }
 
     addClass (node) {
+        if (this.options.debug) {
+            console.log('addClass()');
+        }
+
         if (this.options.activeElement) {
             node.closest(this.options.activeElement).classList.add(this.options.activeClass);
         }
@@ -154,6 +177,10 @@ export default class Navigator {
     }
 
     removeClass (node) {
+        if (this.options.debug) {
+            console.log('removeClass()');
+        }
+
         if (this.options.activeElement) {
             node.closest(this.options.activeElement).classList.remove(this.options.activeClass);
         }
@@ -163,6 +190,10 @@ export default class Navigator {
     }
 
     registerEvents () {
+        if (this.options.debug) {
+            console.log('registerEvents()');
+        }
+
         window.addEventListener('scroll', _throttle(this.updateState, this.options.throttle).bind(this));
         window.addEventListener('resize', _debounce(this.updateState, this.options.debounce).bind(this));
         window.addEventListener('orientationchange', _debounce(this.updateState, this.options.debounce).bind(this));
