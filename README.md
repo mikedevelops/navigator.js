@@ -95,7 +95,7 @@ A callback fired once the active item has changed, the active item `HTMLElement`
 ```javascript
 var exampleNav = new Navigator({
     callbacks: {
-        onActiveItem(activeItem) {
+        onActiveItem: function (activeItem) {
          // your code here...
         }
     }
