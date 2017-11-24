@@ -6,7 +6,7 @@
 
 Navigator is a light weight navigation plugin for in-page navigation links. Navigator maps element IDs provided in the plugin configuration to corrosponding anchor links.
 
-##I nstallation
+## Installation
 
 Install with NPM using the following command
 
