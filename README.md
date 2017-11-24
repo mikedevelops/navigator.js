@@ -1,12 +1,12 @@
-#Navigator.js
+# Navigator.js
 
 *A vanilla front end package to power in-page navigation*
 
-##Introduction
+## Introduction
 
 Navigator is a light weight navigation plugin for in-page navigation links. Navigator maps element IDs provided in the plugin configuration to corrosponding anchor links.
 
-##Installation
+##I nstallation
 
 Install with NPM using the following command
 
@@ -14,7 +14,7 @@ Install with NPM using the following command
 npm install mikedevelops/navigator.js#v1.2.1 --save-dev
 ```
 
-##Usage
+## Usage
 
 This is an example initiation using some default and custom options, see **Options** for more information
 
@@ -30,11 +30,11 @@ var exampleNav = new Navigator({
 });
 ```
 
-##Example
+## Example
 
 Example page coming soon...
 
-##Options
+## Options
 
 ```
 activeElement: false (default)
@@ -84,7 +84,7 @@ updateState: true (default)
 
 When set to true, this will replace the current browser history state using the history API. This will append the current active item's href attribute to the page's URL, this makes for better sharing of Navigator links.
 
-##Callbacks
+## Callbacks
 
 ```
 onActveItem: null (default)
